@@ -6,10 +6,7 @@ import com.CGM.exercise.helper.Initializer;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 public class FormatTest {
 
@@ -31,17 +28,22 @@ public class FormatTest {
         initializer.extractAnswers(sampleWrongInput_For_Answer_with_missing_doublecoat);
     }
 
-    @Test(expected = QuestionFormatException.class)
-    public void checkForQuestionSeprator() {
-        long index = sampleWrongInput_For_Question.indexOf('?');
-        Assert.assertNotEquals(-1, index);
+    @Test
+    public void question_Should_followedWith_questionMark1() {
+        long actual = sampleWrongInput_For_Question.indexOf('?');
+        Assert.assertEquals(-1, actual);
     }
 
-    @Test(expected = SizeLimitException.class)
-    public void question_Should_fallowedWith_questionMark() throws SizeLimitException,
-            QuestionFormatException {
-        initializer.extraxtQuestion(sampleWrongInput_For_Question);
-
+    @Test
+    public void question_Should_followedWith_questionMark2() {
+        try {
+            initializer.extraxtQuestion(sampleWrongInput_For_Question);
+            fail();
+        } catch (SizeLimitException e) {
+            System.out.println("SizeLimitException");
+        } catch (QuestionFormatException e) {
+            System.out.println("QuestionFormatException");
+        }
     }
 
     @Test(expected = SizeLimitException.class)
@@ -52,23 +54,20 @@ public class FormatTest {
         }
     }
 
-    @Test(expected = SizeLimitException.class)
-    public void testingTheSizeOfAnswer_shouldLessThan255() throws SizeLimitException, QuestionFormatException {
+    @Test
+    public void testingTheSizeOfAnswer_shouldLessThan255() {
+        try {
+            initializer.extractAnswers(answerWithMoreThan255);
+            fail();
+        } catch (SizeLimitException e) {
+            System.out.println("SizeLimitException");
+        } catch (QuestionFormatException e) {
+            System.out.println("QuestionFormatException");
+        }
+    }
 
-        List<String> answers = new ArrayList<>();
-            answers = initializer.extractAnswers(answerWithMoreThan255);
-//            fail();
-//        } catch (QuestionFormatException | SizeLimitException e) {
-//            assertEquals (e.getMessage() ,"The Answer/s Should Have Follow Right Structure.");
-//        }
-//        for (int i = 0; i < answers.size(); i++) {
-//            if (answers.get(i).length() > allowedSize)
-//                try {
-//                    throw new SizeLimitException("The Input Answer Size Exceed 255 chars");
-//                } catch (SizeLimitException e) {
-//                    assert (e.getMessage() == "The Answer/s Should Have Follow Right Structure.");
-//                }
-//        }
-//        assert (1 == 1);
+    @Test
+    public void testingThe_wrongFormat_exception() {
+
     }
 }

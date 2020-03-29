@@ -1,9 +1,10 @@
 package com.CGM.exercise.helper;
 
+import com.CGM.exercise.entity.Question;
 import com.CGM.exercise.exception.QuestionFormatException;
 import com.CGM.exercise.exception.SizeLimitException;
-import com.CGM.exercise.entity.Question;
 import org.apache.commons.lang3.StringUtils;
+
 import java.util.*;
 
 
@@ -39,18 +40,20 @@ public class Initializer {
         }
     }
 
-    public List<String> extractAnswers(String input) throws  QuestionFormatException {
+    public List<String> extractAnswers(String input) throws SizeLimitException, QuestionFormatException {
         List<String> answers = new ArrayList<>();
-        checkAnswerFormat(input);
         int index = input.indexOf("?");
-//        checkFormat(index);
+//        int answerCount = StringUtils.countMatches(input, "\"") / 2;
+//        if (answerCount == 0 || answerCount % 2 != 0)
+//            throw new QuestionFormatException("The Answer/s Should Have Follow Right Structure.");
+
+        validateFormat(input);
         int answerBeginIndex = index + 3;
         for (int i = answerBeginIndex; i <= input.length() - 1; i++) {
             if (input.charAt(i) == '"') {
-//                checkFormat(i - answerBeginIndex);
-//                if (answerSize > 255)
-//                    throw new SizeLimitException("The Input Answer Size Exceed 255 char");
+                validateLenth(i - answerBeginIndex, "The Input Answer Size Exceed 255 char");
                 String extractedAnswer = input.substring(answerBeginIndex, i);
+//                validateFormat(input);
                 answers.add(extractedAnswer);
                 answerBeginIndex = i + 3;
                 i = i + 3;
@@ -59,27 +62,29 @@ public class Initializer {
         return answers;
     }
 
-    private void checkAnswerFormat(String input) throws QuestionFormatException {
-
-        int answerCount = StringUtils.countMatches(input, "\"") / 2;
-        if (answerCount == 0 || answerCount % 2 != 0)
-            throw new QuestionFormatException("The Answer/s Should Have Follow Right Structure.");
-
-    }
-
     public String extraxtQuestion(String input) throws SizeLimitException, QuestionFormatException {
         int index = input.indexOf("?");
-        checkFormat(index);
+        validateFormat(input);
         String question = input.substring(0, index + 1);
         return question;
     }
 
-    private void checkFormat(int index) throws SizeLimitException, QuestionFormatException {
-        if (index > 255) {
-            throw new SizeLimitException("The Input Question Size Exceed 255 char");
+    public void validateFormat(String input) throws SizeLimitException, QuestionFormatException {
+
+        int index = input.indexOf("?");
+        int answerCount = StringUtils.countMatches(input, "\"") / 2;
+        validateLenth(index, "The Input Question Size Exceed 255 char");
+        if (answerCount == 0 || answerCount % 2 != 0) {
+            throw new QuestionFormatException("The Answer/s Should Have Follow Right Structure.");
         }
         if (index == -1) {
             throw new QuestionFormatException("The question should followed with \"?\" char");
+        }
+    }
+
+    private void validateLenth(int index, String s) throws SizeLimitException {
+        if (index > 255) {
+            throw new SizeLimitException(s);
         }
     }
 }
