@@ -1,6 +1,8 @@
 package com.CGM.exercise.helper;
 
-
+/** performing colorful consul
+ * @version 1.0
+ */
 public enum Color {
     //Color end string, color reset
     RESET("\033[0m"),

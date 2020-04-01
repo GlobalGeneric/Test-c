@@ -10,31 +10,59 @@ import com.CGM.exercise.service.QuestionValidator;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.fail;
 
-public class FormatTest {
+public class QuestionValidatorTest {
 
-    //    private Initializer initializer = new Initializer();
-    private QuestionService initializer = new QuestionService();
     private IQuestionValidator questionValidator = new QuestionValidator();
 
-
     private static final int allowedSize = 255;
-    private String sampleWrongInput_For_Question = "What is Peters favorite food \"Pizza\" \"Spaghetti\" \"Ice cream\"";
-    private String sampleWrongInput_For_Answer_without_required_Doublecot = "What is Peters favorite food? Pizza";
-    private String sampleWrongInput_For_Answer_with_missing_doublecoat = "What is Peters favorite food? \"Pizza\" \"Spaghetti";
+    private static final String sampleValidInput = "What is Peters favorite food? \"Pizza\" \"Spaghetti\" \"Ice cream\"";
+    private static final String sampleWrongInput_For_Question = "What is Peters favorite food \"Pizza\" \"Spaghetti\" \"Ice cream\"";
+    private static final String sampleWrongInput_For_Answer_without_required_Doublecot = "What is Peters favorite food? Pizza";
+    private static final String sampleWrongInput_For_Answer_with_missing_doublecoat = "What is Peters favorite food? \"Pizza\" \"Spaghetti";
     private static final String questionWithMoreThan255 = "What is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite food? \"What is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite food\" \"Spaghetti\" \"Ice cream\"";
     private static final String answerWithMoreThan255 = "What is Peters favorite food? \"What is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite foodWhat is Peters favorite food\" \"Spaghetti\" \"Ice cream\"";
 
+    @Test
+    public void testingFor_validateFormat() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
+        String wrongInputWithMoreSpac = "What is Peters favorite food? \"Pizza\" \"Spaghetti\" \"Ice cream\"";
+        questionValidator.validateFormat(wrongInputWithMoreSpac);
+    }
+
+    @Test(expected = AnswerFormatException.class)
+    public void testingFor_DobleSpace_between_answers() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
+        String wrongInputWithMoreSpac = "What is Peters favorite food? \"Pizza\"  \"Spaghetti\" \"Ice cream\"";
+        questionValidator.extractAnswers(wrongInputWithMoreSpac);
+    }
+
+    @Test
+    public void testingForEqualityOfExpectedAnswers_ShouldBeEqual() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
+
+        List<String> expected = initAnswer();
+        List<String> actual = questionValidator.extractAnswers(sampleValidInput);
+        Assert.assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void testingForEqualityOfExtractedQuestion() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
+        String expected = "What is Peters favorite food?";
+        String actual = questionValidator.extraxtQuestion(sampleValidInput);
+        Assert.assertEquals(expected, actual);
+    }
 
     @Test(expected = AnswerFormatException.class)
     public void checkFor_AnswerStructure_required_Doublecot() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
-        questionValidator.extractAnswers(sampleWrongInput_For_Answer_without_required_Doublecot);
+        questionValidator.validateFormat(sampleWrongInput_For_Answer_without_required_Doublecot);
     }
 
     @Test(expected = AnswerFormatException.class)
     public void checkFor_AnswerStructure_with_missing_doublecoat() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
-        questionValidator.extractAnswers(sampleWrongInput_For_Answer_with_missing_doublecoat);
+        questionValidator.validateFormat(sampleWrongInput_For_Answer_with_missing_doublecoat);
     }
 
     @Test
@@ -46,10 +74,10 @@ public class FormatTest {
     @Test
     public void question_Should_followedWith_questionMark2() throws AnswerFormatException, SizeLimitException {
         try {
-            questionValidator.extraxtQuestion(sampleWrongInput_For_Question);
+            questionValidator.validateFormat(sampleWrongInput_For_Question);
             fail();
         } catch (QuestionFormatException e) {
-            System.out.println(Color.RED + "QuestionFormatException");
+            System.out.println("QuestionFormatException");
         }
     }
 
@@ -62,13 +90,9 @@ public class FormatTest {
     }
 
     @Test
-    public void testingTheSizeOfAnswer_shouldLessThan255() throws QuestionFormatException {
+    public void testingTheSizeOfAnswer_shouldLessThan255() throws QuestionFormatException, AnswerFormatException {
         try {
-            try {
-                questionValidator.extractAnswers(answerWithMoreThan255);
-            } catch (AnswerFormatException e) {
-                e.printStackTrace();
-            }
+            questionValidator.extractAnswers(answerWithMoreThan255);
             fail();
         } catch (SizeLimitException e) {
             System.out.println(Color.RED + "SizeLimitException");
@@ -92,5 +116,13 @@ public class FormatTest {
         System.out.print(Color.RESET);
 
 
+    }
+
+    private List<String> initAnswer() {
+        List<String> expected = new ArrayList<>();
+        expected.add("Pizza");
+        expected.add("Spaghetti");
+        expected.add("Ice cream");
+        return expected;
     }
 }

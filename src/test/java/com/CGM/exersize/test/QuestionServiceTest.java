@@ -4,7 +4,9 @@ import com.CGM.exercise.exception.AnswerFormatException;
 import com.CGM.exercise.exception.NotFoundException;
 import com.CGM.exercise.exception.QuestionFormatException;
 import com.CGM.exercise.exception.SizeLimitException;
+import com.CGM.exercise.service.IQuestionValidator;
 import com.CGM.exercise.service.QuestionService;
+import com.CGM.exercise.service.QuestionValidator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,21 +59,7 @@ public class QuestionServiceTest {
         assertThat(questionList.size(), is(2));
     }
 
-    @Test
-    public void testingForEqualityOfExpectedAnswers_ShouldBeEqual() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
 
-        List<String> expected = initAnswer();
-        List<String> actual = questionService.extractAnswers(sampleInput);
-        Assert.assertEquals(expected, actual);
-    }
-
-
-    @Test
-    public void testingForEqualityOfExtractedQuestion() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
-        String expected = "What is Peters favorite food?";
-        String actual = questionService.extraxtQuestion(sampleInput);
-        Assert.assertEquals(expected, actual);
-    }
 
     private List<String> initAnswer() {
         List<String> expected = new ArrayList<>();
