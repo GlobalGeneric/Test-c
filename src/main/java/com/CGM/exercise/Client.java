@@ -9,7 +9,7 @@ import com.CGM.exercise.helper.Initializer;
  */
 public class Client {
 
-    public static void main(String[] args) throws SizeLimitException {
+    public static void main(String[] args)  {
         Initializer initializer = new Initializer();
         initializer.readTheQuestion();
     }

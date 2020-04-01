@@ -19,8 +19,8 @@ public class Initializer {
         boolean flage = true;
         while (flage) {
             decorateMenu();
+//            System.out.print("please select number (1-3)->");
             Scanner in = new Scanner(System.in);
-            System.out.print("please select number (1-3)->");
             try {
                 int number = in.nextInt();
                 switch (number) {

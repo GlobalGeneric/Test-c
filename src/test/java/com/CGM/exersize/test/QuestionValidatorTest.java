@@ -85,7 +85,7 @@ public class QuestionValidatorTest {
     public void testingTheSizeOfQuestion_shouldLessThan255() throws SizeLimitException {
         int index = questionWithMoreThan255.indexOf("?");
         if (index > allowedSize) {
-            throw new SizeLimitException(Color.RED + "The Input Question Size Exceed 255 chars");
+            throw new SizeLimitException("");
         }
     }
 
@@ -94,12 +94,13 @@ public class QuestionValidatorTest {
         try {
             questionValidator.extractAnswers(answerWithMoreThan255);
             fail();
-        } catch (SizeLimitException e) {
-            System.out.println(Color.RED + "SizeLimitException");
+        }
+        catch (SizeLimitException e) {
+            System.out.println("");
         }
     }
 
-    @Test
+   /* @Test
     public void color_test() {
 
         System.out.print(Color.BLACK_BOLD);
@@ -117,8 +118,8 @@ public class QuestionValidatorTest {
 
 
     }
-
-    private List<String> initAnswer() {
+*/
+   private List<String> initAnswer() {
         List<String> expected = new ArrayList<>();
         expected.add("Pizza");
         expected.add("Spaghetti");

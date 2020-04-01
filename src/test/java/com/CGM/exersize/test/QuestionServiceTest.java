@@ -1,13 +1,7 @@
 package com.CGM.exersize.test;
 
-import com.CGM.exercise.exception.AnswerFormatException;
 import com.CGM.exercise.exception.NotFoundException;
-import com.CGM.exercise.exception.QuestionFormatException;
-import com.CGM.exercise.exception.SizeLimitException;
-import com.CGM.exercise.service.IQuestionValidator;
 import com.CGM.exercise.service.QuestionService;
-import com.CGM.exercise.service.QuestionValidator;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
