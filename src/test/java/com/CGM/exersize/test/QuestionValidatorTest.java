@@ -4,7 +4,9 @@ import com.CGM.exercise.exception.AnswerFormatException;
 import com.CGM.exercise.exception.QuestionFormatException;
 import com.CGM.exercise.exception.SizeLimitException;
 import com.CGM.exercise.helper.Color;
+import com.CGM.exercise.service.IQuestionValidator;
 import com.CGM.exercise.service.QuestionService;
+import com.CGM.exercise.service.QuestionValidator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,6 +16,8 @@ public class FormatTest {
 
     //    private Initializer initializer = new Initializer();
     private QuestionService initializer = new QuestionService();
+    private IQuestionValidator questionValidator = new QuestionValidator();
+
 
     private static final int allowedSize = 255;
     private String sampleWrongInput_For_Question = "What is Peters favorite food \"Pizza\" \"Spaghetti\" \"Ice cream\"";
@@ -25,12 +29,12 @@ public class FormatTest {
 
     @Test(expected = AnswerFormatException.class)
     public void checkFor_AnswerStructure_required_Doublecot() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
-        initializer.extractAnswers(sampleWrongInput_For_Answer_without_required_Doublecot);
+        questionValidator.extractAnswers(sampleWrongInput_For_Answer_without_required_Doublecot);
     }
 
     @Test(expected = AnswerFormatException.class)
     public void checkFor_AnswerStructure_with_missing_doublecoat() throws SizeLimitException, QuestionFormatException, AnswerFormatException {
-        initializer.extractAnswers(sampleWrongInput_For_Answer_with_missing_doublecoat);
+        questionValidator.extractAnswers(sampleWrongInput_For_Answer_with_missing_doublecoat);
     }
 
     @Test
@@ -42,7 +46,7 @@ public class FormatTest {
     @Test
     public void question_Should_followedWith_questionMark2() throws AnswerFormatException, SizeLimitException {
         try {
-            initializer.extraxtQuestion(sampleWrongInput_For_Question);
+            questionValidator.extraxtQuestion(sampleWrongInput_For_Question);
             fail();
         } catch (QuestionFormatException e) {
             System.out.println(Color.RED + "QuestionFormatException");
@@ -61,7 +65,7 @@ public class FormatTest {
     public void testingTheSizeOfAnswer_shouldLessThan255() throws QuestionFormatException {
         try {
             try {
-                initializer.extractAnswers(answerWithMoreThan255);
+                questionValidator.extractAnswers(answerWithMoreThan255);
             } catch (AnswerFormatException e) {
                 e.printStackTrace();
             }
