@@ -41,19 +41,5 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-    <build>
-        <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>1.3.2</version>-->
-<!--                <configuration>-->
-<!--                    <mainClass>com.CGM.exercise.Client</mainClass>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-        </plugins>
-    </build>
 </project>
-<!--        mvn exec:java -Dexec.mainClass="com.CGM.exercise.Client"-->
