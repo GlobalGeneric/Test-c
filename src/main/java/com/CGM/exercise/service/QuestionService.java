@@ -11,9 +11,10 @@ import java.util.Map;
 
 public class QuestionService implements IQuestionService {
 
-    IQuestionValidator questionValidator = new QuestionValidator();
+    private IQuestionValidator questionValidator ;
 
-    public QuestionService() {
+    public QuestionService(IQuestionValidator questionValidator) {
+        this.questionValidator = questionValidator;
     }
 
     @Override

@@ -77,7 +77,6 @@ public class QuestionValidatorTest {
             questionValidator.validateFormat(sampleWrongInput_For_Question);
             fail();
         } catch (QuestionFormatException e) {
-            System.out.println("QuestionFormatException");
         }
     }
 

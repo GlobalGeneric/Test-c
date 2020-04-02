@@ -1,7 +1,9 @@
 package com.CGM.exersize.test;
 
 import com.CGM.exercise.exception.NotFoundException;
+import com.CGM.exercise.service.IQuestionService;
 import com.CGM.exercise.service.QuestionService;
+import com.CGM.exercise.service.QuestionValidator;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,7 +17,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QuestionServiceTest {
 
-    private QuestionService questionService = new QuestionService();
+    // for this test mock is not required.
+    private IQuestionService questionService = new QuestionService(new QuestionValidator());
     private Map<String, List<String>> questionList = new HashMap<>();
     private String sampleInput = "What is Peters favorite food? \"Pizza\" \"Spaghetti\" \"Ice cream\"";
     private String sampleInput2 = "What is Peters favorite food2? \"Pizza2\" \"Spaghetti2\" \"Ice cream2\"";

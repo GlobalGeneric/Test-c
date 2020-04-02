@@ -13,7 +13,11 @@ import java.util.*;
  */
 public class Initializer {
     private Map<String, List<String>> questionList = new HashMap<>();
-    IQuestionService questionService = new QuestionService();
+    private IQuestionService questionService ;
+
+    public Initializer(IQuestionService questionService) {
+        this.questionService = questionService;
+    }
 
     public void readTheQuestion() {
         boolean flage = true;
